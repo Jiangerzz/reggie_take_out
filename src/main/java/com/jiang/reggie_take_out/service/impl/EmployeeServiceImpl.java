@@ -6,15 +6,19 @@ import com.jiang.reggie_take_out.common.R;
 import com.jiang.reggie_take_out.entity.Employee;
 import com.jiang.reggie_take_out.mapper.EmployeeMapper;
 import com.jiang.reggie_take_out.service.EmployeeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
 @Service
+@Slf4j
 public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> implements EmployeeService {
     
     private EmployeeMapper employeeMapper;
@@ -59,5 +63,17 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
     public R<String> logout(HttpServletRequest request) {
         request.getSession().removeAttribute("emp");
         return R.success("退出成功");
+    }
+
+    @Override
+    public void saveEmp(HttpServletRequest request,Employee employee) {
+        employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setUpdateTime(LocalDateTime.now());
+        Employee emp = (Employee)request.getSession().getAttribute("emp");
+        log.info("emp{}",emp);
+        employee.setCreateUser(emp.getId());
+        employee.setUpdateUser(emp.getId());
+        employeeMapper.insert(employee);
     }
 }

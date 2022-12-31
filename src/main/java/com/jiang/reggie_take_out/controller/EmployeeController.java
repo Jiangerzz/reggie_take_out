@@ -4,6 +4,7 @@ package com.jiang.reggie_take_out.controller;
 import com.jiang.reggie_take_out.common.R;
 import com.jiang.reggie_take_out.entity.Employee;
 import com.jiang.reggie_take_out.service.EmployeeService;
+import com.jiang.reggie_take_out.service.impl.EmployeeServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
@@ -39,5 +40,11 @@ public class EmployeeController {
         
         return employeeService.logout(request);
         
+    }
+    
+    @PostMapping()
+    public R<String> save(@RequestBody Employee employee,HttpServletRequest request) {
+        employeeService.saveEmp(request,employee);
+        return R.success("新增员工成功");
     }
 }
