@@ -1,12 +1,16 @@
 package com.jiang.reggie_take_out.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jiang.reggie_take_out.common.R;
 import com.jiang.reggie_take_out.entity.Employee;
 import com.jiang.reggie_take_out.mapper.EmployeeMapper;
 import com.jiang.reggie_take_out.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -76,4 +80,17 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         employee.setUpdateUser(emp.getId());
         employeeMapper.insert(employee);
     }
+
+    @Override
+    public Page EmpPage(int page, int pageSize, String name) {
+        
+        Page pageInfo = new Page(page, pageSize);
+        LambdaQueryWrapper<Employee> wrapper = new LambdaQueryWrapper<>();
+        wrapper.like(StringUtils.isNotEmpty(name),Employee::getName,name);
+        wrapper.orderByDesc(Employee::getUpdateTime);
+        page(pageInfo,wrapper);
+        return pageInfo;
+    }
+    
+    
 }
