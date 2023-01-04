@@ -17,4 +17,6 @@ public interface EmployeeService extends IService<Employee> {
     
     Page EmpPage(int page,int pageSize,String name);
     
+    void updateStatus(HttpServletRequest request,Employee employee);
+    
 }

@@ -58,4 +58,18 @@ public class EmployeeController {
         Page pageInfo = employeeService.EmpPage(page, pageSize, name);
         return  R.success(pageInfo);
     }
+    
+    @PutMapping
+    public R<String> updateStatus(HttpServletRequest request,@RequestBody Employee employee){
+        employeeService.updateStatus(request,employee);
+        return R.success("用户状态更新成功");
+    }
+    
+    
+    @GetMapping("/{id}")
+    public R<Employee> getById(@PathVariable Long id){
+        Employee employee = employeeService.getById(id);
+        return R.success(employee);
+    }
+    
 }

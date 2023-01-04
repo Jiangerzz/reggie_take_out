@@ -91,6 +91,16 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         page(pageInfo,wrapper);
         return pageInfo;
     }
-    
-    
+
+    @Override
+    public void updateStatus(HttpServletRequest request, Employee employee) {
+        //获取当前用户id
+        Employee emp = (Employee) request.getSession().getAttribute("emp");
+        Long userId = emp.getId();
+        
+        employee.setUpdateUser(userId);
+        employee.setUpdateTime(LocalDateTime.now());
+
+        this.updateById(employee);
+    }
 }

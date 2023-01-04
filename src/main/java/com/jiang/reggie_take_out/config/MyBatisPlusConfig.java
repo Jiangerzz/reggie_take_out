@@ -1,4 +1,4 @@
-package com.jiang.reggie_take_out.controller;
+package com.jiang.reggie_take_out.config;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
@@ -17,4 +17,5 @@ public class MyBatisPlusConfig {
         mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor());
         return mybatisPlusInterceptor;
     }
+    
 }
