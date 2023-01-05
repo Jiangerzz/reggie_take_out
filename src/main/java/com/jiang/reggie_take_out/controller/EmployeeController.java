@@ -62,6 +62,7 @@ public class EmployeeController {
     @PutMapping
     public R<String> updateStatus(HttpServletRequest request,@RequestBody Employee employee){
         employeeService.updateStatus(request,employee);
+        
         return R.success("用户状态更新成功");
     }
     

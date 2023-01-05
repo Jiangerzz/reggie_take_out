@@ -1,6 +1,7 @@
 package com.jiang.reggie_take_out.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.jiang.reggie_take_out.common.BaseContext;
 import com.jiang.reggie_take_out.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
@@ -23,6 +24,8 @@ public class LoginCheckFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) 
             throws IOException, ServletException {
+        
+        
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
@@ -46,7 +49,12 @@ public class LoginCheckFilter implements Filter {
         
         //判断登陆状态，如果已登录，则直接放行
         if(request.getSession().getAttribute("emp") != null){
+            
             log.info("用户已登录,用户id为：{}", request.getSession().getAttribute("emp"));
+            
+            Long empId = (Long) request.getSession().getAttribute("emp");
+            BaseContext.setCurrentId(empId);
+            
             filterChain.doFilter(request,response);
             return;
         }

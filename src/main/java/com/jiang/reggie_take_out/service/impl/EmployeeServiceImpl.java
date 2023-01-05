@@ -59,7 +59,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         }
         
         //将emp信息存储session
-        request.getSession().setAttribute("emp",emp);
+        request.getSession().setAttribute("emp",emp.getId());
         return R.success(emp);
     }
 
@@ -71,13 +71,13 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
 
     @Override
     public void saveEmp(HttpServletRequest request,Employee employee) {
-        employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
-        Employee emp = (Employee)request.getSession().getAttribute("emp");
-        log.info("emp{}",emp);
-        employee.setCreateUser(emp.getId());
-        employee.setUpdateUser(emp.getId());
+//        employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
+//        employee.setCreateTime(LocalDateTime.now());
+//        employee.setUpdateTime(LocalDateTime.now());
+//        Employee emp = (Employee)request.getSession().getAttribute("emp");
+//        log.info("emp{}",emp);
+//        employee.setCreateUser(emp.getId());
+//        employee.setUpdateUser(emp.getId());
         employeeMapper.insert(employee);
     }
 
@@ -95,11 +95,11 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
     @Override
     public void updateStatus(HttpServletRequest request, Employee employee) {
         //获取当前用户id
-        Employee emp = (Employee) request.getSession().getAttribute("emp");
-        Long userId = emp.getId();
-        
-        employee.setUpdateUser(userId);
-        employee.setUpdateTime(LocalDateTime.now());
+//        Employee emp = (Employee) request.getSession().getAttribute("emp");
+//        Long userId = emp.getId();
+//        
+//        employee.setUpdateUser(userId);
+//        employee.setUpdateTime(LocalDateTime.now());
 
         this.updateById(employee);
     }
